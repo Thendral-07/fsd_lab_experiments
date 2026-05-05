@@ -1,0 +1,66 @@
+/* The CSS refering to the navigation bar */
+body{
+  background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTECtc88nFY7_8v3U6ZjhkoukfyhBGjw3I4rKmCxYrJWdJxvfwj-NEPzCQ&s");
+  background-size: cover;
+  background-attachment: fixed;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background-image: url("https://wallpaperaccess.com/full/5675771.jpg");
+  padding: 18px 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar h2 {
+  color: white;
+  font-weight: 600;
+  font-size: 40px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 50px;
+}
+
+.navbar li {
+  display: inline-block;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-weight: 500;
+  transition: all 0.1s ease;
+}
+
+.navbar a:hover {
+  color: #ffffff;
+}
+
+.navbar a.active {
+  color: #38bdf8;
+  border-bottom: 2px solid #38bdf8;
+  padding-bottom: 4px;
+}
+
+/* MOBILE NAVBAR */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 18px 25px;
+  }
+
+  .navbar ul {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
