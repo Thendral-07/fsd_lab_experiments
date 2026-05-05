@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shopping App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 1px 1px 2px #555;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin: 8px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    #cartSection {
+      display: none;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    th {
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .remove-btn {
+      padding: 6px 12px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+
+    .back-btn {
+      margin-top: 20px;
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+    }
+
+    .empty-msg {
+      font-size: 16px;
+      color: #555;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="homeSection">
+    <h2>🛒 Add Products</h2>
+    <button onclick="addProduct('Apple')"> Apple</button>
+    
+    <button onclick="addProduct('Milk')"> Milk</button>
+    <button onclick="addProduct('Sugar')"> Sugar</button>
+    <button onclick="addProduct('Bread')"> Bread</button>
+    <button onclick="addProduct('Eggs')"> Eggs</button>
+    <button onclick="addProduct('Butter')"> Butter</button>
+    <button onclick="addProduct('Cheese')"> Cheese</button>
+    <button onclick="addProduct('Coffee')"> Coffee</button>
+    <button onclick="addProduct('Tea')"> Tea</button>
+    <button onclick="addProduct('Rice')"> Rice</button>
+
+    <br><br>
+    <button onclick="openCart()">Go to Cart</button>
+  </div>
+
+  <div class="container" id="cartSection">
+    <h2>🛒 Your Cart</h2>
+    <p class="empty-msg" id="emptyMsg">Your cart is empty</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price (₹)</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="cartBody"></tbody>
+    </table>
+
+    <button class="back-btn" onclick="goBack()">⬅ Back to Products</button>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function addProduct(product) {
+      let price = prompt("Enter price for " + product);
+      if (price === null || price === "" || isNaN(price)) {
+        alert("Invalid price!");
+        return;
+      }
+      cart.push({ name: product, price: Number(price) });
+      alert(product + " added to cart!");
+    }
+
+    function openCart() {
+      document.getElementById("homeSection").style.display = "none";
+      document.getElementById("cartSection").style.display = "block";
+      displayCart();
+    }
+
+    function goBack() {
+      document.getElementById("cartSection").style.display = "none";
+      document.getElementById("homeSection").style.display = "block";
+    }
+
+    function displayCart() {
+      const body = document.getElementById("cartBody");
+      const emptyMsg = document.getElementById("emptyMsg");
+
+      body.innerHTML = "";
+
+      if (cart.length === 0) {
+        emptyMsg.style.display = "block";
+        return;
+      }
+
+      emptyMsg.style.display = "none";
+
+      for (let i = 0; i < cart.length; i++) {
+        body.innerHTML += `
+          <tr>
+            <td>${cart[i].name}</td>
+            <td>₹ ${cart[i].price}</td>
+            <td><button class="remove-btn" onclick="removeItem(${i})">Remove</button></td>
+          </tr>
+        `;
+      }
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      displayCart();
+    }
+  </script>
+</body>
+</html>
