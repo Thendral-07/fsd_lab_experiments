@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; background: linear-gradient(to left, blue, green); font-weight: 100; font-style: italic; }
+        form { background-color: #ffffff; width: 400px; margin: 30px auto; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-color: green; }
+        h2 { text-align: center; }
+        input, select, button { width: 100%; padding: 8px; margin-top: 5px; }
+        label { font-weight: bold; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-top: 15px; }
+        button:hover { background-color: #45a049; }
+        #output { background-color: #ffffff; width: 400px; margin: 20px auto; padding: 15px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #title { font-style: italic; }
+    </style>
+</head>
+<body>
+
+<form onsubmit="displayDetails(); return false;">
+    <h2 id="title">Online Voting Registration</h2>
+
+    <label>Name</label>
+    <input type="text" id="name" placeholder="Enter Your Name" required><br><br>
+
+    <label>Email</label>
+    <input type="email" id="email" placeholder="Enter Your Email" required><br><br>
+
+    <label>Phone Number</label>
+    <input type="number" id="mobile" placeholder="10 digit mobile number" required onblur="phoneNumberValidator()"><br><br>
+
+    <label>Father Name</label>
+    <input type="text" id="father" placeholder="Enter Your Father's Name" required><br><br>
+
+    <label>Mother Name</label>
+    <input type="text" id="mother" placeholder="Enter Your Mother Name" required><br><br>
+
+    <label>Aadhaar Number</label>
+    <input type="number" id="aadhaar" placeholder="12 digit Aadhaar number" onblur="aadhaarValidation()" required><br><br>
+
+    <label>Pincode</label>
+    <input type="number" id="pincode" placeholder="Enter Pincode" required onblur="pincodeValidation()"><br><br>
+
+    <label>Voter ID</label>
+    <input type="text" id="voterid" placeholder="Enter Your Voter ID" required onblur="voterIDValidation()"><br><br>
+
+    <label>Date of Birth</label>
+    <input type="date" id="dob" oninput="calculateAge()" required><br><br>
+
+    <label>Age</label>
+    <input type="text" id="age" placeholder="Your Age" readonly><br><br>
+
+    <label>Street</label>
+    <input type="text" id="street" placeholder="Enter Your Street Number" required><br><br>
+
+    <label>City</label>
+    <input type="text" id="city" placeholder="Enter Your City Name" required><br><br>
+
+    <label>District</label>
+    <input type="text" id="district" placeholder="Enter Your District" required><br><br>
+
+    <label>Legislative Assembly</label>
+    <input type="text" id="assembly" placeholder="Enter Your Respective Assembly" required><br><br>
+
+    <label>State / Union Territory</label>
+    <select id="state" required>
+        <option value="">Select State</option>
+        <option>Tamil Nadu</option>
+        <option>Karnataka</option>
+        <option>Kerala</option>
+        <option>Andhra Pradesh</option>
+        <option>Telangana</option>
+        <option>Puducherry</option>
+        <option>Maharashtra</option>
+        <option>Delhi</option>
+        <option>Rajasthan</option>
+        <option>Punjab</option>
+        <option>Uttar Pradesh</option>
+        <option>Madhya Pradesh</option>
+        <option>Haryana</option>
+        <option>Himachal Pradesh</option>
+        <option>Uttarkhand</option>
+        <option>Jammu and Kashmir</option>
+        <option>Ladakh</option>
+        <option>West Bengal</option>
+        <option>Chandigarh</option>
+        <option>Bihar</option>
+    </select><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<div id="output"></div>
+
+<script>
+function calculateAge() {
+    let dobInput = document.getElementById('dob').value;
+    let ageField = document.getElementById('age');
+
+    if (!dobInput) {
+        ageField.value = '';
+        return false;
+    }
+
+    let birthDate = new Date(dobInput);
+    let today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let monthDiff = today.getMonth() - birthDate.getMonth();
+    let dayDiff = today.getDate() - birthDate.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) age--;
+
+    ageField.value = age;
+
+    if (age < 18 || age > 100) {
+        alert("Your age is not eligible for voting");
+        return false;
+    }
+
+    return true;
+}
+
+function voterIDValidation() {
+    let voter = document.getElementById("voterid").value;
+    if (voter.length !== 10) {
+        alert("Invalid Voter ID format");
+        return false;
+    }
+    return true;
+}
+
+function aadhaarValidation() {
+    let number = document.getElementById("aadhaar").value;
+    if (number.length !== 12) {
+        alert("Invalid Aadhaar Number");
+        return false;
+    }
+    return true;
+}
+
+function pincodeValidation() {
+    let number = document.getElementById("pincode").value;
+    if (number.length !== 6) {
+        alert("Invalid Pincode Number");
+        return false;
+    }
+    return true;
+}
+
+function phoneNumberValidator() {
+    let number = document.getElementById("mobile").value;
+    if (number.length !== 10) {
+        alert("Invalid Phone Number: Must be 10 digits");
+        return false;
+    }
+    let firstDigit = number.charAt(0);
+    if (!["6","7","8","9"].includes(firstDigit)) {
+        alert("Invalid Phone Number: First digit must be 6, 7, 8, or 9");
+        return false;
+    }
+    return true;
+}
+
+function displayDetails() {
+    if (!calculateAge()) return;
+    if (!aadhaarValidation()) return;
+    if (!voterIDValidation()) return;
+    if (!pincodeValidation()) return;
+    if (!phoneNumberValidator()) return;
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById('mobile').value;
+    let aadhaar = document.getElementById('aadhaar').value;
+    let father = document.getElementById('father').value;
+    let mother = document.getElementById('mother').value;
+    let voter = document.getElementById("voterid").value;
+    let assembly = document.getElementById('assembly').value;
+    let pincode = document.getElementById("pincode").value;
+    let age = document.getElementById('age').value;
+    let street = document.getElementById('street').value;
+    let city = document.getElementById('city').value;
+    let district = document.getElementById('district').value;
+    let state = document.getElementById('state').value;
+
+    document.getElementById('output').innerHTML = `
+        <h3>Voter Details</h3>
+        <b>Name:</b> ${name}<br>
+        <b>Email:</b> ${email}<br>
+        <b>Phone:</b> ${phone}<br>
+        <b>Father Name:</b> ${father}<br>
+        <b>Mother Name:</b> ${mother}<br>
+        <b>Age:</b> ${age}<br>
+        <b>Aadhaar:</b> ${aadhaar}<br>
+        <b>Voter ID:</b> ${voter}<br>
+        <b>Legislative Assembly:</b> ${assembly}<br>
+        <b>Address:</b> ${street}, ${city}, ${district}, ${state}, ${pincode}
+    `;
+}
+</script>
+
+</body>
+</html>
